@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071421" />
+  <meta name="description" content="Portfolio of a software engineer transitioning into aerospace engineering, with academic focus in spacecraft guidance, navigation, control and autonomous systems." />
+  <title>Philippe Kruettli — Software Engineering × Aerospace</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #071421;
+      --bg-2: #0b1d2c;
+      --panel: rgba(14, 36, 53, .78);
+      --panel-solid: #10283a;
+      --line: rgba(164, 196, 216, .17);
+      --text: #edf5f8;
+      --muted: #a7bac6;
+      --soft: #c8d6dd;
+      --accent: #61dfc2;
+      --accent-2: #88b9ff;
+      --gold: #e7c98e;
+      --gold-faint: #e7c98e5e;
+      --silver: #c0c0c0;
+      --silver-faint: #c0c0c069;
+      --max: 1120px;
+      --radius: 20px;
+      --shadow: 0 20px 60px rgba(0, 0, 0, .24);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0; min-width: 320px; color: var(--text);
+      background:
+        radial-gradient(900px 520px at 86% -8%, rgba(57, 132, 153, .18), transparent 62%),
+        radial-gradient(760px 500px at -15% 35%, rgba(62, 106, 159, .14), transparent 64%),
+        linear-gradient(180deg, #071421 0%, #091927 48%, #071421 100%);
+      font: 16px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: .005em;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+    button { font: inherit; }
+    .wrap { width: min(var(--max), calc(100% - 44px)); margin-inline: auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; backdrop-filter: blur(18px);
+      background: rgba(7, 20, 33, .78); border-bottom: 1px solid var(--line);
+    }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: .02em; }
+    .brand-mark {
+      width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px;
+      color: #062019; background: linear-gradient(135deg, var(--accent), #9cf2dc); font-size: 14px; font-weight: 900;
+      box-shadow: 0 0 28px rgba(97, 223, 194, .2);
+    }
+    .navlinks { display: flex; align-items: center; gap: 25px; color: var(--muted); font-size: 13px; font-weight: 650; }
+    .navlinks a:hover { color: var(--accent); }
+    .nav-cta { color: var(--accent) !important; border: 1px solid rgba(97,223,194,.35); padding: 8px 13px; border-radius: 999px; }
+    .hero { position: relative; padding: 92px 0 74px; overflow: hidden; }
+    .hero:after {
+      content: ""; position: absolute; width: 440px; height: 440px; right: -80px; top: 28px; border-radius: 50%;
+      border: 1px solid rgba(97,223,194,.12); box-shadow: 0 0 0 48px rgba(97,223,194,.025), 0 0 0 100px rgba(97,223,194,.018);
+      pointer-events: none;
+    }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, .8fr); gap: 56px; align-items: center; position: relative; z-index: 1; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow:before { content: ""; width: 24px; height: 1px; background: var(--accent); }
+    h1 { margin: 18px 0 20px; font-size: clamp(44px, 7vw, 78px); line-height: 1.1; letter-spacing: -.055em; max-width: 760px; }
+    h1 .gradient { background: linear-gradient(100deg, #eff9fa 8%, #8fe6d0 58%, #8dbaff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { max-width: 710px; color: #c1d0d8; font-size: clamp(17px, 2vw, 20px); line-height: 1.65; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .pill { color: var(--soft); background: rgba(153,188,207,.08); border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; font-size: 12px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 17px; border-radius: 11px; font-size: 14px; font-weight: 750; border: 1px solid var(--line); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+    .btn:hover { transform: translateY(-2px); border-color: rgba(97,223,194,.55); }
+    .btn-primary { color: #05221c; background: var(--accent); border-color: var(--accent); }
+    .btn-secondary { color: var(--text); background: rgba(255,255,255,.035); }
+    .profile-card { padding: 26px; border: 1px solid rgba(97,223,194,.2); border-radius: 24px; background: linear-gradient(145deg, rgba(19,47,66,.9), rgba(8,26,40,.9)); box-shadow: var(--shadow); }
+    .orbit { width: 100%; aspect-ratio: 1.12; display: grid; place-items: center; position: relative; margin-bottom: 20px; }
+    .orbit svg { width: min(100%, 310px); overflow: visible; }
+    .profile-card h2 { margin: 0 0 6px; font-size: 18px; }
+    .profile-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .card-stat { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .stat { border-top: 1px solid var(--line); padding-top: 12px; }
+    .stat strong { display: block; color: var(--accent); font-size: 22px; line-height: 1.2; }
+    .stat span { color: var(--muted); font-size: 11px; }
+    section { padding: 74px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 28px; }
+    .kicker { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h2.section-title { margin: 7px 0 0; font-size: clamp(30px, 4vw, 44px); line-height: 1.1; letter-spacing: -.04em; }
+    .section-intro { max-width: 520px; color: var(--muted); font-size: 14px; margin: 0; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .focus-card { padding: 23px; min-height: 210px; }
+    .icon-box { width: 42px; height: 42px; display: grid; place-items: center; color: var(--accent); background: rgba(97,223,194,.1); border: 1px solid rgba(97,223,194,.18); border-radius: 13px; font-size: 17px; }
+    .focus-card h3 { margin: 17px 0 7px; font-size: 17px; }
+    .focus-card p { color: var(--muted); font-size: 13px; margin: 0; }
+    .label { display: inline-block; margin-top: 14px; color: var(--accent-2); font-size: 10px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .edu-card { padding: 25px; }
+    .edu-card + .edu-card { margin-top: 16px; }
+    .edu-top { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+    .edu-card h3 { margin: 0; font-size: 19px; }
+    .edu-card .institution { color: var(--accent); font-size: 13px; font-weight: 700; margin-top: 4px; }
+    .edu-card .detail { color: var(--muted); font-size: 13px; margin: 13px 0 0; }
+    .status { white-space: nowrap; border-radius: 999px; padding: 5px 9px; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); background: rgba(97,223,194,.09); border: 1px solid rgba(97,223,194,.2); }
+    .status.in-progress { color: var(--gold); background: rgba(231,201,142,.08); border-color: rgba(231,201,142,.22); }
+    .course-group { margin-top: 21px; }
+    .course-group h4 { display: flex; align-items: center; gap: 11px; color: var(--soft); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; margin: 0 0 11px; }
+    .course-group h4:after { content: ""; height: 1px; flex: 1; background: var(--line); }
+    .course-list { display: grid; gap: 8px; }
+    .course { display: grid; grid-template-columns: 86px 1fr auto; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 11px; background: rgba(255,255,255,.025); border: 1px solid rgba(164,196,216,.09); }
+    .course.gold { background: linear-gradient(90deg, var(--gold-faint) 0%, rgba(164, 196, 216, .09) 50%); border: 1px solid var(--gold) }
+    .course.silver { background: linear-gradient(90deg, var(--silver-faint) 0%, rgba(164, 196, 216, .09) 50%); border: 1px solid var(--silver) }
+    .course-code { color: var(--accent-2); font-size: 11px; font-weight: 800; }
+    .course-name { color: var(--soft); font-size: 12px; }
+    .grade { color: var(--accent); font-weight: 800; font-size: 12px; }
+    .grade.pending { color: var(--gold); font-size: 10px; }
+    .grade.upcoming { color: var(--accent-2); font-size: 10px; }
+    .experience { padding: 27px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; }
+    .experience h3 { font-size: 20px; margin: 0; }
+    .experience p { color: var(--muted); font-size: 14px; margin: 8px 0 0; max-width: 720px; }
+    .timeline { display: grid; gap: 16px; }
+    .experience .org { color: var(--accent); font-size: 13px; font-weight: 700; margin-top: 4px; }
+    .exp-list { margin: 14px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; max-width: 760px; }
+    .exp-list li + li { margin-top: 7px; }
+    .exp-list li::marker { color: var(--accent); }
+    .exp-list strong { color: var(--soft); font-weight: 700; }
+    .skill-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .skill-card { padding: 23px; }
+    .skill-card h3 { margin: 0 0 13px; font-size: 16px; }
+    .lang-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 20px; margin: 14px 0 0; }
+    .lang-list div { border-top: 1px solid var(--line); padding-top: 9px; }
+    .lang-list dt { color: var(--soft); font-size: 13px; font-weight: 700; }
+    .lang-list dd { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+    .capability-list { display: flex; flex-wrap: wrap; gap: 9px; }
+    .capability { padding: 9px 12px; color: var(--soft); font-size: 12px; border-radius: 999px; background: rgba(255,255,255,.035); border: 1px solid var(--line); }
+    .note { color: var(--muted); font-size: 12px; margin-top: 14px; }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .project-card { padding: 24px; min-height: 190px; display: flex; flex-direction: column; }
+    .project-card .project-index { color: var(--accent); font-size: 11px; font-weight: 850; letter-spacing: .13em; }
+    .project-card h3 { margin: 12px 0 6px; font-size: 18px; }
+    .project-card p { color: var(--muted); font-size: 13px; margin: 0; }
+    .project-card .project-hint { margin-top: auto; padding-top: 18px; color: var(--gold); font-size: 11px; }
+    .project-card .project-link { align-self: flex-start; margin-top: 12px; color: var(--accent); font-size: 12px; font-weight: 750; border: 1px solid rgba(97,223,194,.35); padding: 6px 11px; border-radius: 999px; transition: background .2s ease; }
+    .project-card .project-link:hover { background: rgba(97,223,194,.1); }
+    .project-card .project-note { margin-top: 12px; color: var(--muted); font-size: 11px; font-style: italic; }
+    .ambition { padding: 34px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 30px; align-items: center; background: linear-gradient(115deg, rgba(15,48,64,.94), rgba(13,33,54,.9)); border: 1px solid rgba(136,185,255,.2); }
+    .ambition h2 { margin: 9px 0 12px; font-size: clamp(25px, 3vw, 34px); line-height: 1.12; letter-spacing: -.035em; }
+    .ambition p { color: var(--muted); font-size: 14px; margin: 0; }
+    .ambition-aside { border-left: 1px solid var(--line); padding-left: 28px; }
+    .ambition-aside strong { display: block; color: var(--accent-2); font-size: 14px; margin-bottom: 6px; }
+    .ambition-aside span { color: var(--muted); font-size: 12px; }
+    .contact { padding-bottom: 88px; }
+    .contact-panel { padding: 34px; display: flex; justify-content: space-between; gap: 28px; align-items: center; background: linear-gradient(110deg, rgba(97,223,194,.11), rgba(136,185,255,.07)); border: 1px solid rgba(97,223,194,.2); }
+    .contact-panel h2 { margin: 0 0 8px; font-size: 29px; letter-spacing: -.04em; }
+    .contact-panel p { margin: 0; color: var(--muted); font-size: 14px; }
+    footer { border-top: 1px solid var(--line); padding: 24px 0 32px; color: #78909e; font-size: 11px; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .socials { display: flex; flex-wrap: wrap; gap: 16px; }
+    .socials a:hover { color: var(--accent); }
+    .small-caps { color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; font-weight: 800; }
+    @media (max-width: 850px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 35px; }
+      .profile-card { max-width: 460px; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .split { grid-template-columns: 1fr; }
+      .ambition { grid-template-columns: 1fr; }
+      .ambition-aside { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(var(--max), calc(100% - 30px)); }
+      .nav { min-height: 62px; }
+      .navlinks { gap: 13px; font-size: 11px; }
+      .navlinks a:nth-child(2), .navlinks a:nth-child(3), .navlinks a:nth-child(4) { display: none; }
+      .hero { padding: 66px 0 48px; }
+      section { padding: 55px 0; }
+      .grid-3, .projects-grid { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-intro { margin-top: 12px; }
+      .course { grid-template-columns: 75px 1fr auto; gap: 7px; padding: 10px 8px; }
+      .course-name { font-size: 11px; }
+      .experience { grid-template-columns: 1fr; }
+      .experience .status { justify-self: start; grid-row: 1; }
+      .skill-grid { grid-template-columns: 1fr; }
+      .lang-list { grid-template-columns: 1fr 1fr; }
+      .contact-panel { display: block; padding: 25px; }
+      .contact-panel .btn { margin-top: 18px; }
+      .footer-row { align-items: start; flex-direction: column; }
+      .edu-top { flex-direction: column; }
+    }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *:before, *:after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Back to top"><span class="brand-mark"><img src="personal_logo.png" style="width: 100%; border-radius: 20%" /></span><span>Philippe Kruettli</span></a>
+      <nav class="navlinks" aria-label="Main navigation">
+        <a href="#profile">Profile</a><a href="#education">Education</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#work">Work</a><a class="nav-cta" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Software engineering × aerospace</span>
+          <h1><span class="gradient">Engineering software</span><br>for the space age.</h1>
+          <p class="lead">I'm a computer science graduate and software engineer with 6+ years of professional experience, including work as a technical lead and software architect, currently pursuing a Professional Master of Science in Aerospace Engineering at the University of Colorado Boulder. I'm focused on bringing software, control and autonomous-systems thinking into the aerospace domain.</p>
+          <div class="hero-meta">
+            <span class="pill">BSc Computer Science · FHNW</span>
+            <span class="pill">ProMS Aerospace Engineering · CU Boulder</span>
+            <span class="pill">Swiss citizen</span>
+          </div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#work">Explore technical work <span aria-hidden="true">↘</span></a>
+            <a class="btn btn-secondary" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <aside class="profile-card" aria-label="Profile snapshot">
+          <div class="orbit">
+            <svg viewBox="0 0 300 270" role="img" aria-label="Portrait of Philippe Kruettli surrounded by orbital paths">
+              <defs>
+                <linearGradient id="orb" x1="0" x2="1"><stop stop-color="#61dfc2"/><stop offset="1" stop-color="#88b9ff"/></linearGradient>
+                <clipPath id="portrait-clip"><circle cx="150" cy="136" r="78"/></clipPath>
+                <path id="sat-path" d="M15 136a135 62 0 1 0 270 0a135 62 0 1 0 -270 0" transform="rotate(-28 150 136)"/>
+              </defs>
+              <ellipse cx="150" cy="136" rx="135" ry="62" fill="none" stroke="url(#orb)" stroke-width="1.5" opacity=".8" transform="rotate(-28 150 136)"/>
+              <ellipse cx="150" cy="136" rx="135" ry="62" fill="none" stroke="#88b9ff" stroke-width="1" opacity=".45" transform="rotate(42 150 136)"/>
+              <circle cx="150" cy="136" r="98" fill="none" stroke="#61dfc2" stroke-width="1" opacity=".2"/>
+              <circle r="3.5" fill="#e7c98e"><animateMotion dur="18s" repeatCount="indefinite"><mpath href="#sat-path"/></animateMotion></circle>
+              <circle cx="150" cy="136" r="84" fill="#071421"/>
+              <image href="portrait.jpg" x="53.7" y="57.8" width="195" height="195" clip-path="url(#portrait-clip)" preserveAspectRatio="xMidYMid slice"/>
+              <circle cx="150" cy="136" r="78" fill="none" stroke="url(#orb)" stroke-width="2.5"/>
+              <circle cx="254" cy="208" r="3" fill="#61dfc2"/><circle cx="236" cy="44" r="2.5" fill="#88b9ff"/>
+              <path d="M28 230h40m-20-20v40M240 72h24m-12-12v24" stroke="#8ba6b7" stroke-opacity=".32" stroke-width="1"/>
+            </svg>
+          </div>
+          <h2>Building toward aerospace</h2>
+          <p>Combining professional software engineering experience with graduate study in spacecraft dynamics, control, estimation and autonomous systems.</p>
+          <div class="card-stat">
+            <div class="stat"><strong>6+</strong><span>Years in software engineering</span></div>
+            <div class="stat"><strong>5.6/6</strong><span>BSc final grade · FHNW</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="profile">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">01 / Profile</div><h2 class="section-title">A software-first path into aerospace.</h2></div>
+          <p class="section-intro">My background sits at the intersection of software engineering and aerospace engineering. I'm particularly interested in systems where algorithms, dynamics and real-world mission constraints meet.</p>
+        </div>
+        <div class="grid-3">
+          <article class="panel focus-card"><div class="icon-box">⌘</div><h3>Software engineering</h3><p>More than six years of professional software engineering, including technical leadership, architecture and automated verification, supported by a BSc in Computer Science.</p><span class="label">Professional experience</span></article>
+          <article class="panel focus-card"><div class="icon-box">◎</div><h3>Guidance, navigation & control</h3><p>Graduate coursework in linear control, spacecraft attitude dynamics and control, statistical estimation, and uncrewed aircraft GNC.</p><span class="label">Academic foundation</span></article>
+          <article class="panel focus-card"><div class="icon-box">✳</div><h3>Autonomous space systems</h3><p>Interested in autonomy, estimation under uncertainty, spacecraft dynamics, astrodynamics, navigation and mission operations.</p><span class="label">Areas of interest</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">02 / Education</div><h2 class="section-title">Academic background.</h2></div>
+          <p class="section-intro">From a Swiss software apprenticeship to a computer science degree and now graduate aerospace engineering at CU Boulder. Each step has moved me closer to the work I want to do: guidance, navigation, control and estimation for space systems.</p>
+        </div>
+        <div class="split">
+          <div>
+            <article class="panel edu-card">
+              <div class="edu-top"><div><h3>Professional Master of Science</h3><div class="institution">Aerospace Engineering · University of Colorado Boulder</div></div><span class="status in-progress">In progress</span></div>
+              <p class="detail">Fully remote graduate program. Working toward completion of the 10-course requirement, with the final two courses expected in Spring 2027.</p>
+              <div class="course-group"><h4>Fall 2025 · Completed</h4><div class="course-list">
+                <div class="course"><span class="course-code">ASEN 5014</span><span class="course-name">Linear Control Systems</span><span class="grade">A</span></div>
+                <div class="course"><span class="course-code">ASEN 5044</span><span class="course-name">Statistical Estimation for Dynamical Systems</span><span class="grade">A</span></div>
+              </div></div>
+              <div class="course-group"><h4>Spring 2026 · Completed</h4><div class="course-list">
+                <div class="course"><span class="course-code">ASEN 5010</span><span class="course-name">Spacecraft Attitude, Dynamics, and Control</span><span class="grade">B-</span></div>
+                <div class="course"><span class="course-code">ASEN 5016</span><span class="course-name">Space Life Sciences</span><span class="grade">A</span></div>
+                <div class="course"><span class="course-code">ASEN 5128</span><span class="course-name">Small Uncrewed Aircraft System GNC</span><span class="grade">A</span></div>
+              </div></div>
+              <div class="course-group"><h4>Fall 2026 · In progress</h4><div class="course-list">
+                <div class="course"><span class="course-code">ASEN 5050</span><span class="course-name">Space Flight Dynamics</span><span class="grade pending">In progress</span></div>
+                <div class="course"><span class="course-code">ASEN 5090</span><span class="course-name">Introduction to GNSS</span><span class="grade pending">In progress</span></div>
+                <div class="course"><span class="course-code">ASEN 5158</span><span class="course-name">Space Habitat Design</span><span class="grade pending">In progress</span></div>
+              </div></div>
+              <div class="course-group"><h4>Spring 2027 · Upcoming</h4><div class="course-list">
+                <div class="course"><span class="course-code">Nov 2026</span><span class="course-name">Class Registration</span><span class="grade upcoming">Upcoming</span></div>
+                <!--<div class="course"><span class="course-code">ASEN 5148</span><span class="course-name">Spacecraft Design</span><span class="grade upcoming">Upcoming</span></div>
+                <div class="course"><span class="course-code">ASEN 6015</span><span class="course-name">Space Vehicle Guidance and Control</span><span class="grade upcoming">Upcoming</span></div>
+                <div class="course"><span class="course-code">ASEN 6080</span><span class="course-name">Statistical Orbit Determination</span><span class="grade upcoming">Upcoming</span></div>-->
+              </div></div>
+            </article>
+          </div>
+          <div>
+            <article class="panel edu-card">
+              <div class="edu-top"><div><h3>Bachelor of Science</h3><div class="institution">Computer Science · FHNW, Switzerland</div></div><span class="status">Completed</span></div>
+              <p class="detail">Sep 2021 – Mar 2025 · Brugg · Final grade: <strong style="color:var(--accent)">5.6 / 6.0</strong></p>
+              <p class="detail">Focus on autonomous systems, software architecture, Mars rover software and software testing.</p>
+              <div class="course-group"><h4>Highlights</h4><div class="course-list">
+                <div class="course gold" style="grid-template-columns:1fr auto"><span class="course-name">European Rover Challenge, Poland — autonomous robotics team</span><span class="grade">1st · 2024</span></div>
+                <div class="course silver" style="grid-template-columns:1fr auto"><span class="course-name">European Rover Challenge, Poland — autonomous robotics team</span><span class="grade">2nd · 2023</span></div>
+                <div class="course" style="grid-template-columns:1fr"><span class="course-name">Real-time path planning, motion control and traversal algorithms for the Mars rover in ROS2 / C++</span></div>
+              </div></div>
+            </article>
+            <article class="panel edu-card" style="margin-top:16px">
+              <div class="edu-top"><div><h3>Vocational school &amp; Berufsmaturität</h3><div class="institution">gibb, Bern</div></div><span class="status">Completed</span></div>
+              <p class="detail">Aug 2016 – Jul 2020 · BMS grade: <strong style="color:var(--accent)">5.5 / 6.0</strong></p>
+              <p class="detail">Focus on agile software development, software architecture, systems engineering and networks, alongside the software engineering apprenticeship.</p>
+            </article>
+            <article class="panel edu-card" style="margin-top:16px">
+              <div class="kicker">Academic direction</div>
+              <h3 style="margin-top:8px">From software to spacecraft.</h3>
+              <p class="detail">The graduate coursework is building on a computer science foundation with subjects in controls, estimation, spacecraft dynamics, uncrewed systems, navigation and human-spaceflight-related topics.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">03 / Experience</div><h2 class="section-title">Professional experience.</h2></div>
+          <p class="section-intro">Professional software engineering experience is the foundation of my transition into aerospace.</p>
+        </div>
+        <div class="timeline">
+          <article class="panel experience">
+            <div>
+              <div class="small-caps">Feb 2023 - present · Bern, Switzerland</div>
+              <h3 style="margin-top:7px">Professional Software Engineer</h3>
+              <div class="org">ti&amp;m AG</div>
+              <ul class="exp-list">
+                <li><strong>Software systems architecture.</strong> Architected mission-critical distributed systems using C#, .NET, Python and cloud-native frameworks, with a focus on fault tolerance, modularity and high availability.</li>
+                <li><strong>Technical ownership &amp; interface leadership.</strong> Technical Lead and Software Architect for cross-functional teams: owned software releases, defined interface specifications and managed architectural roadmaps.</li>
+                <li><strong>Requirements &amp; configuration management.</strong> Managed requirements traceability, automated CI/CD build pipelines, version-control baselines and release management.</li>
+                <li><strong>Engineering standards.</strong> Established agile workflows, unit/integration testing frameworks, peer reviews and clean-code standards, reducing defect rates and onboarding time.</li>
+              </ul>
+              <div class="capability-list" style="margin-top:17px"><span class="capability">C# / .NET</span><span class="capability">Python</span><span class="capability">Cloud-native</span><span class="capability">CI/CD</span><span class="capability">Technical leadership</span><span class="capability">Interface specification</span></div>
+            </div>
+            <span class="status">Current</span>
+          </article>
+          <article class="panel experience">
+            <div>
+              <div class="small-caps">Aug 2020 - Jan 2023 · Bern, Switzerland</div>
+              <h3 style="margin-top:7px">Junior Software Developer</h3>
+              <div class="org">Federal Office of Information Technology, Systems and Telecommunication (FOITT)</div>
+              <ul class="exp-list">
+                <li><strong>Technical team leadership.</strong> Led a developer team building high-reliability .NET / Angular software for critical public-sector infrastructure, including the National Cancer Registry software.</li>
+                <li><strong>Developer tooling &amp; testbeds.</strong> Designed, configured and deployed standardized virtual development and test environments used across teams.</li>
+                <li><strong>System verification.</strong> Developed automated integration and system-level tests to meet strict security and reliability requirements.</li>
+              </ul>
+              <div class="capability-list" style="margin-top:17px"><span class="capability">.NET</span><span class="capability">Angular</span><span class="capability">Integration testing</span><span class="capability">Test environments</span></div>
+            </div>
+          </article>
+          <article class="panel experience">
+            <div>
+              <div class="small-caps">Aug 2016 - Jul 2020 · Bern, Switzerland</div>
+              <h3 style="margin-top:7px">Software Engineering Apprenticeship</h3>
+              <div class="org">Federal Office of Information Technology, Systems and Telecommunication (FOITT) · Final grade 6.0 / 6.0</div>
+              <ul class="exp-list">
+                <li><strong>Core software development.</strong> Developed applications in C#, Java and web technologies within Agile/Scrum teams.</li>
+                <li><strong>Automated verification.</strong> Designed and ran automated regression test scripts with HP UFT to safeguard code quality and system stability.</li>
+                <li><strong>Engineering foundations.</strong> Object-oriented design, software lifecycle management and version-control practices.</li>
+              </ul>
+              <div class="capability-list" style="margin-top:17px"><span class="capability">C#</span><span class="capability">Java</span><span class="capability">Web</span><span class="capability">HP UFT</span><span class="capability">Scrum</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">04 / Skills</div><h2 class="section-title">Tools, methods &amp; focus areas.</h2></div>
+          <p class="section-intro">Skills from professional software work, robotics competition and graduate aerospace coursework.</p>
+        </div>
+        <div class="skill-grid">
+          <article class="panel skill-card"><h3>Control &amp; dynamics</h3><div class="capability-list"><span class="capability">State-space modeling</span><span class="capability">Linearization</span><span class="capability">Controllability / observability</span><span class="capability">Pole placement</span><span class="capability">LQR</span><span class="capability">Luenberger observers</span><span class="capability">Lyapunov stability</span><span class="capability">sUAS GNC</span></div></article>
+          <article class="panel skill-card"><h3>Estimation &amp; navigation</h3><div class="capability-list"><span class="capability">Kalman filtering (LKF / EKF)</span><span class="capability">Orbit determination</span><span class="capability">GNSS / IMU sensor fusion</span><span class="capability">Monte Carlo validation</span><span class="capability">NEES / NIS consistency testing</span><span class="capability">Fault injection &amp; robustness analysis</span></div></article>
+          <article class="panel skill-card"><h3>Mission design &amp; simulation</h3><div class="capability-list"><span class="capability">NASA GMAT</span><span class="capability">MATLAB / Simulink</span><span class="capability">6-DOF nonlinear simulation</span><span class="capability">Trajectory design</span><span class="capability">ΔV budgeting</span><span class="capability">ConOps &amp; requirements</span><span class="capability">Functional decomposition</span><span class="capability">Systems-level architecture</span></div></article>
+          <article class="panel skill-card"><h3>Robotics &amp; flight software</h3><div class="capability-list"><span class="capability">ROS2</span><span class="capability">Motion planning</span><span class="capability">Autonomous navigation</span><span class="capability">Embedded systems (Arduino, Raspberry Pi, ESP32)</span><span class="capability">Sensor integration</span></div></article>
+          <article class="panel skill-card"><h3>Languages &amp; frameworks</h3><div class="capability-list"><span class="capability">C</span><span class="capability">C++</span><span class="capability">C#</span><span class="capability">Java</span><span class="capability">MATLAB</span><span class="capability">Python</span><span class="capability">TypeScript / JavaScript</span><span class="capability">SQL</span><span class="capability">.NET</span><span class="capability">Angular</span><span class="capability">React</span><span class="capability">Vue</span><span class="capability">Svelte</span><span class="capability">Express</span><span class="capability">Flask</span></div></article>
+          <article class="panel skill-card"><h3>Engineering practices</h3><div class="capability-list"><span class="capability">Technical leadership</span><span class="capability">Scrum</span><span class="capability">Systems testing &amp; QA</span><span class="capability">Distributed architectures</span><span class="capability">Failure analysis &amp; troubleshooting</span><span class="capability">Requirements traceability</span><span class="capability">Technical writing (IEEE / AIAA papers)</span></div></article>
+        </div>
+        <div class="panel skill-card" style="margin-top:16px">
+          <div class="kicker">Spoken languages</div>
+          <dl class="lang-list">
+            <div><dt>German</dt><dd>Native</dd></div>
+            <div><dt>English</dt><dd>C2 · Cambridge CPE</dd></div>
+            <div><dt>French</dt><dd>Approx. B2</dd></div>
+            <div><dt>Spanish</dt><dd>Basic</dd></div>
+            <div><dt>Italian</dt><dd>Basic</dd></div>
+            <div><dt>Albanian</dt><dd>Elementary</dd></div>
+          </dl>
+        </div>
+        <div class="kicker" style="margin-top:34px">Areas of interest</div>
+        <div class="panel" style="padding:25px; margin-top:12px">
+          <div class="capability-list">
+            <span class="capability">Flight software</span><span class="capability">Guidance, navigation & control</span><span class="capability">Autonomous systems</span><span class="capability">Control systems</span><span class="capability">Statistical estimation</span><span class="capability">Spacecraft dynamics</span><span class="capability">Astrodynamics</span><span class="capability">GNSS / navigation</span><span class="capability">Simulation</span><span class="capability">Mission operations</span><span class="capability">Spacecraft systems engineering</span><span class="capability">Human spaceflight</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">05 / Selected work</div><h2 class="section-title">Projects & technical evidence.</h2></div>
+          <p class="section-intro">Six projects from a planetary rover competition, critical public-sector software and graduate aerospace coursework. Each one covers the problem, what I built or analyzed, and the result, with my own part named on team projects.</p>
+        </div>
+        <div class="projects-grid">
+          <article class="panel project-card"><span class="project-index">PROJECT 01</span><h3>Mars rover autonomy — European Rover Challenge</h3><p>Lead navigation systems and software engineer for the FHNW Rover Team. Engineered real-time path planning, motion control and traversal algorithms for the rover using ROS2 and C++. The team placed 2nd in 2023 and won 1st place in 2024.</p><span class="project-hint">ROS2 · C++ · Path planning · Motion control</span></article>
+          <article class="panel project-card"><span class="project-index">PROJECT 02</span><h3>National Cancer Registry software</h3><p>At FOITT, led a developer team building high-reliability .NET / Angular software for critical public-sector infrastructure, backed by automated integration and system-level tests.</p><span class="project-hint">.NET · Angular · Team lead · System verification</span></article>
+          <article class="panel project-card"><span class="project-index">PROJECT 03</span><h3>Spacecraft orbit-keeping control — ASEN 5014</h3><p>Two-person project on keeping a satellite on a 300 km circular orbit. We linearized the orbital equations of motion into a 4-state linear model, showed it is fully controllable and observable, and designed two controllers — manual pole placement and LQR — plus an observer that rebuilds the full state from radius and angle measurements. My part: the model, the controllability/observability analysis, and both controller designs. Against the 5 s settling requirement, LQR rejected disturbances about twice as fast as pole placement (1.8–2.7 s vs. 4.2 s) while staying within the thruster limits.</p><span class="project-hint">MATLAB · State space · Pole placement · LQR · Luenberger observer</span><span class="project-note">Full report available on request.</span></article>
+          <article class="panel project-card"><span class="project-index">PROJECT 04</span><h3>sUAS state-estimation robustness under sensor failure — ASEN 5128</h3><p>Solo research paper comparing dead reckoning, a low-pass sensor-inversion estimator and a cascaded EKF in a 6-DOF nonlinear simulation of CU's Ttwistor UAS. Injected GNSS blackout, GNSS spoofing and IMU bias drift across 100-run Monte Carlo sets, and introduced a Time-to-Violation (TTV) metric: the time from sensor failure until the aircraft leaves a safe flight corridor. The EKF held the corridor for the full 50 s nominally, but under spoofing its cross-track TTV fell to 3–5 s, matching the far simpler estimator.</p><span class="project-hint">MATLAB · 6-DOF simulation · EKF · Monte Carlo · Fault injection</span><a class="project-link" href="reports/Kruettli_ASEN5128_State-Estimation-Robustness.pdf" download>Download paper (PDF, 1 MB)</a></article>
+          <article class="panel project-card"><span class="project-index">PROJECT 05</span><h3>CASTLE crewed lunar habitat — ASEN 5158 (in progress)</h3><p>Mission engineer on a nine-person team designing a habitat that takes 4 crew on a 10-day mission from a 350 km Earth orbit to a 100 km lunar orbit and back, including a 3-hour spacewalk. I designed the trajectory in NASA GMAT, built the ΔV budget (8.31 km/s, or 9.14 km/s with a 10% margin, which now sets the propulsion sizing) and wrote most of the second design report, covering the mission concept, phase-by-phase timeline and top-level requirements.</p><span class="project-hint">NASA GMAT · Python · Trajectory design · ΔV budget · Requirements</span><span class="project-note">Design reports available on request.</span></article>
+          <article class="panel project-card"><span class="project-index">PROJECT 06</span><h3>Satellite orbit determination — ASEN 5044</h3><p>Three-person project estimating a satellite's orbit from range, range-rate and elevation measurements taken by 12 ground stations, comparing a linearized Kalman filter with an EKF. My part: the nonlinear truth simulation, the 1,000-run Monte Carlo used to validate both filters, the NEES/NIS statistical consistency tests, and the final comparison on the provided measurement log. The tuned EKF kept position errors around one meter, inside its ±2σ bounds over the full 14,000 s run, while the linearized filter degraded as the orbit drifted from its reference.</p><span class="project-hint">MATLAB · EKF · Linearized KF · Monte Carlo · NEES / NIS testing</span><span class="project-note">Full report available on request.</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="panel ambition">
+          <div>
+            <div class="kicker">Long-term direction</div>
+            <h2>Contributing to the next chapter of human spaceflight.</h2>
+            <p>My near-term goal is to transition into the aerospace industry, particularly in flight software, GNC or related technical roles. Over time, I also want to build experience across spacecraft systems and mission operations.</p>
+          </div>
+          <div class="ambition-aside"><strong>Long-term aspiration</strong><span>As a Swiss citizen, I aspire to work toward a future opportunity in the European astronaut corps, while first building substantial engineering and operational experience.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <div class="panel contact-panel">
+          <div><div class="kicker">06 / Contact</div><h2>Let's talk engineering.</h2><p>Open to connecting with people working in aerospace, spacecraft systems, GNC, flight software and autonomous systems.</p></div>
+          <div class="actions" style="margin:0">
+            <a class="btn btn-primary" href="mailto:philippe.kruettli@gmx.ch">Email me ↗</a>
+            <a class="btn btn-secondary" href="https://www.linkedin.com/in/philippe-kruettli" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+            <a class="btn btn-secondary" href="https://github.com/kruettlip" target="_blank" rel="noreferrer">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year">2026</span> Philippe Kruettli. Built with curiosity and an engineering mindset.</span>
+      <div class="socials">
+        <a href="#top">Back to top ↑</a>
+        <a href="mailto:philippe.kruettli@gmx.ch">Email</a>
+        <a href="https://www.linkedin.com/in/philippe-kruettli" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="https://github.com/kruettlip" target="_blank" rel="noreferrer">GitHub</a></div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    // Subtle three-layer starfield: far layers drift slower on scroll, a few stars twinkle.
+    (function () {
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const layers = [
+        { speed: 0.04, size: [0.4, 0.9], alpha: [0.25, 0.5], density: 1 / 6500 },
+        { speed: 0.10, size: [0.7, 1.2], alpha: [0.35, 0.65], density: 1 / 14000 },
+        { speed: 0.20, size: [1.0, 1.7], alpha: [0.5, 0.85], density: 1 / 38000 }
+      ];
+      const tints = ['237,245,248', '237,245,248', '237,245,248', '136,185,255', '97,223,194', '231,201,142'];
+      const rand = (a, b) => a + Math.random() * (b - a);
+      let w = 0, h = 0, dpr = 1, stars = [];
+
+      function build() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = window.innerWidth; h = window.innerHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        stars = [];
+        layers.forEach(layer => {
+          const count = Math.round(w * h * layer.density);
+          for (let i = 0; i < count; i++) {
+            stars.push({
+              x: Math.random() * w, y: Math.random() * h, speed: layer.speed,
+              r: rand(layer.size[0], layer.size[1]), a: rand(layer.alpha[0], layer.alpha[1]),
+              tint: tints[Math.floor(Math.random() * tints.length)],
+              twinkle: Math.random() < 0.15 ? rand(0.6, 1.8) : 0, phase: Math.random() * Math.PI * 2
+            });
+          }
+        });
+      }
+
+      function draw(t) {
+        const still = motion.matches;
+        const scroll = still ? 0 : window.scrollY;
+        ctx.clearRect(0, 0, w, h);
+        for (const s of stars) {
+          const y = ((s.y - scroll * s.speed) % h + h) % h;
+          const a = s.twinkle && !still ? s.a * (0.55 + 0.45 * Math.sin(t / 1000 * s.twinkle + s.phase)) : s.a;
+          ctx.fillStyle = 'rgba(' + s.tint + ',' + a.toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(s.x, y, s.r, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      function loop(t) { draw(t); if (!motion.matches) requestAnimationFrame(loop); }
+      function start() { build(); motion.matches ? draw(0) : requestAnimationFrame(loop); }
+
+      let resizeTimer;
+      window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => {
+        if (window.innerWidth === w) { h = window.innerHeight; canvas.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+        else build();
+        if (motion.matches) draw(0);
+      }, 150); });
+      motion.addEventListener('change', start);
+      start();
+
+      // Stop the orbiting dot in the hero for reduced-motion users.
+      const heroSvg = document.querySelector('.orbit svg');
+      const syncSvg = () => heroSvg && (motion.matches ? heroSvg.pauseAnimations() : heroSvg.unpauseAnimations());
+      motion.addEventListener('change', syncSvg); syncSvg();
+    })();
+  </script>
+</body>
+</html>
