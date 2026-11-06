@@ -9,8 +9,14 @@
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preload" href="fonts/JetBrainsMono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <style>
+    @font-face {
+      font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 700; font-display: swap;
+      src: url("fonts/JetBrainsMono-latin.woff2") format("woff2");
+    }
     :root {
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       color-scheme: dark;
       --bg: #071421;
       --bg-2: #0b1d2c;
@@ -167,6 +173,56 @@
     .socials { display: flex; flex-wrap: wrap; gap: 16px; }
     .socials a:hover { color: var(--accent); }
     .small-caps { color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; font-weight: 800; }
+    /* Telemetry feel: dates, codes, numbers and tags in monospace */
+    .eyebrow, .kicker, .pill, .stat strong, .course-code, .grade, .status, .course-group h4, .small-caps,
+    .label, .project-index, .project-hint, .capability, .lang-list dd, .result, .project-fig figcaption, .spec-list b {
+      font-family: var(--mono); font-feature-settings: "zero" 0;
+    }
+    .eyebrow, .kicker { letter-spacing: .12em; }
+    .pill, .capability { font-size: 11.5px; letter-spacing: 0; }
+    .stat strong { letter-spacing: -.02em; }
+    .project-hint { letter-spacing: 0; }
+
+    /* Orbit motif: section dividers */
+    .orbit-divider { position: relative; height: 1px; width: min(var(--max), calc(100% - 44px)); margin: 0 auto;
+      background: linear-gradient(90deg, transparent, var(--line) 18%, var(--line) 82%, transparent); }
+    .orbit-divider svg { position: absolute; left: 50%; top: 50%; width: 132px; height: 40px; transform: translate(-50%, -50%); overflow: visible; }
+
+    /* Orbit motif behind project cards and result readouts */
+    .project-card { position: relative; overflow: hidden; }
+    .project-card::after { content: ""; position: absolute; right: -70px; top: -70px; width: 240px; height: 240px; pointer-events: none; opacity: .55;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%2361dfc2' stroke-opacity='.28'%3E%3Cellipse cx='120' cy='120' rx='110' ry='44' transform='rotate(-28 120 120)'/%3E%3Cellipse cx='120' cy='120' rx='110' ry='44' transform='rotate(42 120 120)' stroke='%2388b9ff'/%3E%3Ccircle cx='120' cy='120' r='70' stroke-opacity='.14'/%3E%3C/g%3E%3Ccircle cx='31' cy='167' r='3' fill='%23e7c98e' fill-opacity='.7'/%3E%3C/svg%3E") no-repeat center / contain; }
+    .project-card > * { position: relative; z-index: 1; }
+    .project-body { display: flex; flex-direction: column; flex: 1; }
+    .result { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; padding: 9px 112px 9px 12px; font-size: 12px; color: var(--text);
+      border: 1px solid rgba(97,223,194,.22); border-radius: 10px;
+      background: rgba(97,223,194,.05) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cellipse cx='60' cy='20' rx='54' ry='12' fill='none' stroke='%2361dfc2' stroke-opacity='.3' transform='rotate(-8 60 20)'/%3E%3Ccircle cx='60' cy='20' r='3' fill='%2388b9ff' fill-opacity='.5'/%3E%3Ccircle cx='110' cy='13' r='2' fill='%23e7c98e' fill-opacity='.8'/%3E%3C/svg%3E") no-repeat right 8px center / 96px 32px; }
+    .result b { color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: .12em; flex: none; }
+
+    /* Project figures */
+    .project-fig { margin: 0 0 18px; }
+    .project-fig img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; padding: 8px; background: #fff; border: 1px solid var(--line); border-radius: 12px; filter: brightness(.9); }
+    .project-fig.dark img { padding: 0; background: #04071a; object-fit: cover; filter: none; }
+    .project-fig figcaption { margin-top: 8px; color: var(--muted); font-size: 10.5px; line-height: 1.5; }
+    .project-card.featured { flex-direction: row-reverse; align-items: stretch; gap: 30px; }
+    .project-card.featured .project-fig { flex: 0 0 42%; margin: 0; }
+    .project-card.featured .project-fig img { aspect-ratio: auto; }
+    .project-card.wide { grid-column: 1 / -1; min-height: 0; }
+    .spec-list { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; }
+    .spec-list li { border-top: 1px solid var(--line); padding-top: 10px; color: var(--muted); font-size: 12.5px; }
+    .spec-list b { display: block; margin-bottom: 4px; color: var(--accent); font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* Contact: keep the three buttons on one line on desktop */
+    .contact-panel > div:first-child { flex: 1 1 auto; max-width: 520px; }
+    .contact-panel .actions { flex-wrap: nowrap; flex: none; }
+
+    @media (max-width: 850px) {
+      .project-card.featured { flex-direction: column; gap: 0; }
+      .project-card.featured .project-fig { flex: none; margin-bottom: 18px; }
+      .contact-panel { display: block; }
+      .contact-panel > div:first-child { max-width: none; }
+      .contact-panel .actions { flex-wrap: wrap; margin-top: 20px !important; }
+    }
     @media (max-width: 850px) {
       .hero-grid { grid-template-columns: 1fr; gap: 35px; }
       .profile-card { max-width: 460px; }
@@ -181,7 +237,7 @@
       .brand { gap: 8px; font-size: 15px; }
       .brand-mark { width: 30px; height: 30px; }
       .navlinks { gap: 13px; font-size: 11px; }
-      .navlinks a:nth-child(2), .navlinks a:nth-child(3), .navlinks a:nth-child(4) { display: none; }
+      .navlinks a:nth-child(3), .navlinks a:nth-child(4), .navlinks a:nth-child(5) { display: none; }
       .hero { padding: 66px 0 48px; }
       section { padding: 55px 0; }
       .grid-3, .projects-grid { grid-template-columns: 1fr; }
@@ -197,6 +253,7 @@
       .contact-panel .btn { margin-top: 18px; }
       .footer-row { align-items: start; flex-direction: column; }
       .edu-top { flex-direction: column; }
+      .result { padding-right: 68px; background-size: 56px 20px; background-position: right 6px center; }
     }
     #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
     @media (max-width: 400px) { .navlinks a:first-child { display: none; } }
@@ -209,7 +266,7 @@
     <div class="wrap nav">
       <a class="brand" href="#top" aria-label="Back to top"><span class="brand-mark"><img src="personal_logo.png" style="width: 100%; border-radius: 20%" /></span><span>Philippe Kruettli</span></a>
       <nav class="navlinks" aria-label="Main navigation">
-        <a href="#profile">Profile</a><a href="#education">Education</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#work">Work</a><a class="nav-cta" href="#contact">Contact</a>
+        <a href="#profile">Profile</a><a href="#work">Work</a><a href="#education">Education</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a class="nav-cta" href="#contact">Contact</a>
       </nav>
     </div>
   </header>
@@ -254,12 +311,13 @@
           <p>Combining professional software engineering experience with graduate study in spacecraft dynamics, control, estimation and autonomous systems.</p>
           <div class="card-stat">
             <div class="stat"><strong>6+</strong><span>Years in software engineering</span></div>
-            <div class="stat"><strong>5.6/6</strong><span>BSc final grade · FHNW</span></div>
+            <div class="stat"><strong>1st</strong><span>European Rover Challenge 2024 · rover navigation</span></div>
           </div>
         </aside>
       </div>
     </section>
 
+    <div class="orbit-divider" aria-hidden="true"><svg viewBox="0 0 132 40"><ellipse cx="66" cy="20" rx="58" ry="13" fill="#071421" stroke="#61dfc2" stroke-opacity=".35" transform="rotate(-10 66 20)"/><circle cx="66" cy="20" r="4.5" fill="#88b9ff" fill-opacity=".8"/><circle cx="121" cy="10" r="2.5" fill="#e7c98e"/></svg></div>
     <section id="profile">
       <div class="wrap">
         <div class="section-head">
@@ -274,10 +332,30 @@
       </div>
     </section>
 
+    <div class="orbit-divider" aria-hidden="true"><svg viewBox="0 0 132 40"><ellipse cx="66" cy="20" rx="58" ry="13" fill="#071421" stroke="#61dfc2" stroke-opacity=".35" transform="rotate(-10 66 20)"/><circle cx="66" cy="20" r="4.5" fill="#88b9ff" fill-opacity=".8"/><circle cx="121" cy="10" r="2.5" fill="#e7c98e"/></svg></div>
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">02 / Selected work</div><h2 class="section-title">Projects & technical evidence.</h2></div>
+          <p class="section-intro">Seven projects from a planetary rover competition, my bachelor's thesis, graduate aerospace coursework and critical public-sector software. Each one covers the problem, what I built or analyzed, and the result, with my own part named on team projects.</p>
+        </div>
+        <div class="projects-grid">
+          <article class="panel project-card featured"><figure class="project-fig dark"><img src="images/rover-path.webp" width="862" height="606" loading="lazy" decoding="async" alt="Planned rover path through several waypoints, drawn over a colour-coded terrain cost map of the Mars yard"><figcaption>Planned path through all waypoints on the Mars-yard cost map (IP5 report).</figcaption></figure><div class="project-body"><span class="project-index">PROJECT 01</span><h3>Mars rover autonomous navigation — European Rover Challenge</h3><p>Lead navigation systems and software engineer for the FHNW Rover Team, which placed 2nd at the ERC in 2023 and won 1st place in 2024. For the 2024 rover, a teammate and I rebuilt the autonomous navigation in ROS2 / C++ as a two-person project: cost maps from terrain height data that trade path length against slope, D* Lite path planning that recalculates when obstacles appear or the rover drifts off its path, a behavior tree for waypoint following and error handling, and an operator UI in NASA's OpenMCT. Tested in Gazebo simulation and on field testing days.</p><div class="result"><b>RESULT</b><span>Team won 1st place · ERC 2024</span></div><span class="project-hint">ROS2 · C++ · D* Lite · Behavior trees · Gazebo · OpenMCT</span><span class="project-note">Full report available on request.</span></div></article>
+          <article class="panel project-card"><figure class="project-fig"><img src="images/thesis-kprobes.webp" width="900" height="676" loading="lazy" decoding="async" alt="Diagram of a read system call passing from a process through the syscall interface to the file system, with fsnoop kprobe and kretprobe hooks"><figcaption>How fsnoop hooks a read() system call with kernel probes (kprobe / kretprobe).</figcaption></figure><div class="project-body"><span class="project-index">PROJECT 02 · BACHELOR'S THESIS</span><h3>eBPF file-access profiler for ESA's Euclid mission</h3><p>After Euclid's first data arrived in 2024, inefficient file access in the processing pipeline once left a single file taking up to 26 hours to open. With a teammate, I built fsnoop: a profiler that traces file operations inside the Linux kernel using eBPF, without modifying the system or the scientific code. It streams traces into OpenTelemetry and Grafana and flags patterns such as inefficient caching, metadata bottlenecks and overlapping file access. On the Royal Observatory Edinburgh's development cluster it collected almost 12 million traces from a real Euclid workload, at about 2–3% CPU overhead.</p><div class="result"><b>RESULT</b><span>~12 M traces · 2–3 % CPU overhead</span></div><span class="project-hint">eBPF · Linux kernel probes · Python / BCC · OpenTelemetry · Grafana · HPC</span><span class="project-note">Full report available on request.</span></div></article>
+          <article class="panel project-card"><figure class="project-fig"><img src="images/asen5014-response.webp" width="1100" height="351" loading="lazy" decoding="async" alt="Two plots of radial distance after a disturbance impulse, one for pole placement and one for LQR, each with a dashed line at 5 seconds"><figcaption>Radial response to a disturbance impulse: pole placement (left) vs. LQR (right); dashed line = 5 s requirement.</figcaption></figure><div class="project-body"><span class="project-index">PROJECT 03</span><h3>Spacecraft orbit-keeping control — ASEN 5014</h3><p>Two-person project on keeping a satellite on a 300 km circular orbit. We linearized the orbital equations of motion into a 4-state linear model, showed it is fully controllable and observable, and designed two controllers — manual pole placement and LQR — plus an observer that rebuilds the full state from radius and angle measurements. My part: the model, the controllability/observability analysis, and both controller designs. Against the 5 s settling requirement, LQR rejected disturbances about twice as fast as pole placement (1.8–2.7 s vs. 4.2 s) while staying within the thruster limits.</p><div class="result"><b>RESULT</b><span>LQR settling 1.8–2.7 s vs. 4.2 s (pole placement)</span></div><span class="project-hint">MATLAB · State space · Pole placement · LQR · Luenberger observer</span><span class="project-note">Full report available on request.</span></div></article>
+          <article class="panel project-card"><figure class="project-fig"><img src="images/asen5128-ttv-radar.webp" width="900" height="606" loading="lazy" decoding="async" alt="Radar chart of average time-to-violation for cross-track, altitude and attitude, comparing dead reckoning, a simple estimator and an EKF"><figcaption>Average time-to-violation per axis for the three estimators, across all fault scenarios.</figcaption></figure><div class="project-body"><span class="project-index">PROJECT 04</span><h3>sUAS state-estimation robustness under sensor failure — ASEN 5128</h3><p>Solo research paper comparing dead reckoning, a low-pass sensor-inversion estimator and a cascaded EKF in a 6-DOF nonlinear simulation of CU's Ttwistor UAS. Injected GNSS blackout, GNSS spoofing and IMU bias drift across 100-run Monte Carlo sets, and introduced a Time-to-Violation (TTV) metric: the time from sensor failure until the aircraft leaves a safe flight corridor. The EKF held the corridor for the full 50 s nominally, but under spoofing its cross-track TTV fell to 3–5 s, matching the far simpler estimator.</p><div class="result"><b>RESULT</b><span>GNSS spoofing: EKF cross-track TTV 3–5 s</span></div><span class="project-hint">MATLAB · 6-DOF simulation · EKF · Monte Carlo · Fault injection</span><a class="project-link" href="reports/Kruettli_ASEN5128_State-Estimation-Robustness.pdf" download>Download paper (PDF, 1 MB)</a></div></article>
+          <article class="panel project-card"><figure class="project-fig"><img src="images/castle-trajectory.webp" width="1200" height="686" loading="lazy" decoding="async" alt="CASTLE trajectory from low Earth orbit to low lunar orbit and back, plotted in the Earth–Moon rotating frame with a mission phase timeline"><figcaption>CASTLE trajectory in the Earth–Moon rotating frame from the GMAT simulation, with mission phases.</figcaption></figure><div class="project-body"><span class="project-index">PROJECT 05</span><h3>CASTLE crewed lunar habitat — ASEN 5158 (in progress)</h3><p>Mission engineer on a nine-person team designing a habitat that takes 4 crew on a 10-day mission from a 350 km Earth orbit to a 100 km lunar orbit and back, including a 3-hour spacewalk. I designed the trajectory in NASA GMAT, built the ΔV budget (8.31 km/s, or 9.14 km/s with a 10% margin, which now sets the propulsion sizing) and wrote most of the second design report, covering the mission concept, phase-by-phase timeline and top-level requirements.</p><div class="result"><b>RESULT</b><span>ΔV budget 9.14 km/s incl. 10 % margin</span></div><span class="project-hint">NASA GMAT · Python · Trajectory design · ΔV budget · Requirements</span><span class="project-note">Design reports available on request.</span></div></article>
+          <article class="panel project-card"><figure class="project-fig"><img src="images/asen5044-ekf-errors.webp" width="1100" height="530" loading="lazy" decoding="async" alt="Four stacked plots of EKF position and velocity estimation errors over time, staying inside dashed plus-minus two sigma bounds"><figcaption>EKF state estimation error with ±2σ bounds over the 14,000 s run.</figcaption></figure><div class="project-body"><span class="project-index">PROJECT 06</span><h3>Satellite orbit determination — ASEN 5044</h3><p>Three-person project estimating a satellite's orbit from range, range-rate and elevation measurements taken by 12 ground stations, comparing a linearized Kalman filter with an EKF. My part: the nonlinear truth simulation, the 1,000-run Monte Carlo used to validate both filters, the NEES/NIS statistical consistency tests, and the final comparison on the provided measurement log. The tuned EKF kept position errors around one meter, inside its ±2σ bounds over the full 14,000 s run, while the linearized filter degraded as the orbit drifted from its reference.</p><div class="result"><b>RESULT</b><span>EKF position error ~1 m, inside ±2σ</span></div><span class="project-hint">MATLAB · EKF · Linearized KF · Monte Carlo · NEES / NIS testing</span><span class="project-note">Full report available on request.</span></div></article>
+          <article class="panel project-card"><div class="project-body"><span class="project-index">PROJECT 07</span><h3>National Cancer Registry software — FOITT</h3><p>At the Swiss Federal Office of Information Technology, Systems and Telecommunication (FOITT), I led a developer team building the National Cancer Registry software in .NET and Angular, part of the critical public-sector infrastructure the office runs. Besides the application itself, the work covered how the team built and verified software: shared development and test environments, and automated tests against strict security and reliability requirements.</p><ul class="spec-list"><li><b>Team leadership</b>Led the developer team building the registry software for critical public-sector infrastructure.</li><li><b>Test environments</b>Designed, configured and deployed standardized virtual development and test environments used across teams.</li><li><b>System verification</b>Developed automated integration and system-level tests to meet strict security and reliability requirements.</li></ul><span class="project-hint">.NET · Angular · Team lead · Test environments · System verification</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <div class="orbit-divider" aria-hidden="true"><svg viewBox="0 0 132 40"><ellipse cx="66" cy="20" rx="58" ry="13" fill="#071421" stroke="#61dfc2" stroke-opacity=".35" transform="rotate(-10 66 20)"/><circle cx="66" cy="20" r="4.5" fill="#88b9ff" fill-opacity=".8"/><circle cx="121" cy="10" r="2.5" fill="#e7c98e"/></svg></div>
     <section id="education">
       <div class="wrap">
         <div class="section-head">
-          <div><div class="kicker">02 / Education</div><h2 class="section-title">Academic background.</h2></div>
+          <div><div class="kicker">03 / Education</div><h2 class="section-title">Academic background.</h2></div>
           <p class="section-intro">From a software apprenticeship to a CS degree and now graduate aerospace engineering at CU Boulder. Each step has moved me closer to the work I want to do: guidance, navigation, control and estimation for space systems.</p>
         </div>
         <div class="split">
@@ -333,10 +411,11 @@
       </div>
     </section>
 
+    <div class="orbit-divider" aria-hidden="true"><svg viewBox="0 0 132 40"><ellipse cx="66" cy="20" rx="58" ry="13" fill="#071421" stroke="#61dfc2" stroke-opacity=".35" transform="rotate(-10 66 20)"/><circle cx="66" cy="20" r="4.5" fill="#88b9ff" fill-opacity=".8"/><circle cx="121" cy="10" r="2.5" fill="#e7c98e"/></svg></div>
     <section id="experience">
       <div class="wrap">
         <div class="section-head">
-          <div><div class="kicker">03 / Experience</div><h2 class="section-title">Professional experience.</h2></div>
+          <div><div class="kicker">04 / Experience</div><h2 class="section-title">Professional experience.</h2></div>
           <p class="section-intro">Professional software engineering experience is the foundation of my transition into aerospace.</p>
         </div>
         <div class="timeline">
@@ -385,10 +464,11 @@
       </div>
     </section>
 
+    <div class="orbit-divider" aria-hidden="true"><svg viewBox="0 0 132 40"><ellipse cx="66" cy="20" rx="58" ry="13" fill="#071421" stroke="#61dfc2" stroke-opacity=".35" transform="rotate(-10 66 20)"/><circle cx="66" cy="20" r="4.5" fill="#88b9ff" fill-opacity=".8"/><circle cx="121" cy="10" r="2.5" fill="#e7c98e"/></svg></div>
     <section id="skills">
       <div class="wrap">
         <div class="section-head">
-          <div><div class="kicker">04 / Skills</div><h2 class="section-title">Tools, methods &amp; focus areas.</h2></div>
+          <div><div class="kicker">05 / Skills</div><h2 class="section-title">Tools, methods &amp; focus areas.</h2></div>
           <p class="section-intro">Skills from professional software work, robotics competition and graduate aerospace coursework.</p>
         </div>
         <div class="skill-grid">
@@ -415,24 +495,6 @@
           <div class="capability-list">
             <span class="capability">Flight software</span><span class="capability">Guidance, navigation & control</span><span class="capability">Autonomous systems</span><span class="capability">Control systems</span><span class="capability">Statistical estimation</span><span class="capability">Spacecraft dynamics</span><span class="capability">Astrodynamics</span><span class="capability">GNSS / navigation</span><span class="capability">Simulation</span><span class="capability">Mission operations</span><span class="capability">Spacecraft systems engineering</span><span class="capability">Human spaceflight</span>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="work">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="kicker">05 / Selected work</div><h2 class="section-title">Projects & technical evidence.</h2></div>
-          <p class="section-intro">Seven projects from a planetary rover competition, my bachelor's thesis, critical public-sector software and graduate aerospace coursework. Each one covers the problem, what I built or analyzed, and the result, with my own part named on team projects.</p>
-        </div>
-        <div class="projects-grid">
-          <article class="panel project-card featured"><span class="project-index">PROJECT 01</span><h3>Mars rover autonomous navigation — European Rover Challenge</h3><p>Lead navigation systems and software engineer for the FHNW Rover Team, which placed 2nd at the ERC in 2023 and won 1st place in 2024. For the 2024 rover, a teammate and I rebuilt the autonomous navigation in ROS2 / C++ as a two-person project: cost maps from terrain height data that trade path length against slope, D* Lite path planning that recalculates when obstacles appear or the rover drifts off its path, a behavior tree for waypoint following and error handling, and an operator UI in NASA's OpenMCT. Tested in Gazebo simulation and on field testing days.</p><span class="project-hint">ROS2 · C++ · D* Lite · Behavior trees · Gazebo · OpenMCT</span><span class="project-note">Full report available on request.</span></article>
-          <article class="panel project-card"><span class="project-index">PROJECT 02 · BACHELOR'S THESIS</span><h3>eBPF file-access profiler for ESA's Euclid mission</h3><p>After Euclid's first data arrived in 2024, inefficient file access in the processing pipeline once left a single file taking up to 26 hours to open. With a teammate, I built fsnoop: a profiler that traces file operations inside the Linux kernel using eBPF, without modifying the system or the scientific code. It streams traces into OpenTelemetry and Grafana and flags patterns such as inefficient caching, metadata bottlenecks and overlapping file access. On the Royal Observatory Edinburgh's development cluster it collected almost 12 million traces from a real Euclid workload, at about 2–3% CPU overhead.</p><span class="project-hint">eBPF · Linux kernel probes · Python / BCC · OpenTelemetry · Grafana · HPC</span><span class="project-note">Full report available on request.</span></article>
-          <article class="panel project-card"><span class="project-index">PROJECT 03</span><h3>National Cancer Registry software</h3><p>At FOITT, led a developer team building high-reliability .NET / Angular software for critical public-sector infrastructure, backed by automated integration and system-level tests.</p><span class="project-hint">.NET · Angular · Team lead · System verification</span></article>
-          <article class="panel project-card"><span class="project-index">PROJECT 04</span><h3>Spacecraft orbit-keeping control — ASEN 5014</h3><p>Two-person project on keeping a satellite on a 300 km circular orbit. We linearized the orbital equations of motion into a 4-state linear model, showed it is fully controllable and observable, and designed two controllers — manual pole placement and LQR — plus an observer that rebuilds the full state from radius and angle measurements. My part: the model, the controllability/observability analysis, and both controller designs. Against the 5 s settling requirement, LQR rejected disturbances about twice as fast as pole placement (1.8–2.7 s vs. 4.2 s) while staying within the thruster limits.</p><span class="project-hint">MATLAB · State space · Pole placement · LQR · Luenberger observer</span><span class="project-note">Full report available on request.</span></article>
-          <article class="panel project-card"><span class="project-index">PROJECT 05</span><h3>sUAS state-estimation robustness under sensor failure — ASEN 5128</h3><p>Solo research paper comparing dead reckoning, a low-pass sensor-inversion estimator and a cascaded EKF in a 6-DOF nonlinear simulation of CU's Ttwistor UAS. Injected GNSS blackout, GNSS spoofing and IMU bias drift across 100-run Monte Carlo sets, and introduced a Time-to-Violation (TTV) metric: the time from sensor failure until the aircraft leaves a safe flight corridor. The EKF held the corridor for the full 50 s nominally, but under spoofing its cross-track TTV fell to 3–5 s, matching the far simpler estimator.</p><span class="project-hint">MATLAB · 6-DOF simulation · EKF · Monte Carlo · Fault injection</span><a class="project-link" href="reports/Kruettli_ASEN5128_State-Estimation-Robustness.pdf" download>Download paper (PDF, 1 MB)</a></article>
-          <article class="panel project-card"><span class="project-index">PROJECT 06</span><h3>CASTLE crewed lunar habitat — ASEN 5158 (in progress)</h3><p>Mission engineer on a nine-person team designing a habitat that takes 4 crew on a 10-day mission from a 350 km Earth orbit to a 100 km lunar orbit and back, including a 3-hour spacewalk. I designed the trajectory in NASA GMAT, built the ΔV budget (8.31 km/s, or 9.14 km/s with a 10% margin, which now sets the propulsion sizing) and wrote most of the second design report, covering the mission concept, phase-by-phase timeline and top-level requirements.</p><span class="project-hint">NASA GMAT · Python · Trajectory design · ΔV budget · Requirements</span><span class="project-note">Design reports available on request.</span></article>
-          <article class="panel project-card"><span class="project-index">PROJECT 07</span><h3>Satellite orbit determination — ASEN 5044</h3><p>Three-person project estimating a satellite's orbit from range, range-rate and elevation measurements taken by 12 ground stations, comparing a linearized Kalman filter with an EKF. My part: the nonlinear truth simulation, the 1,000-run Monte Carlo used to validate both filters, the NEES/NIS statistical consistency tests, and the final comparison on the provided measurement log. The tuned EKF kept position errors around one meter, inside its ±2σ bounds over the full 14,000 s run, while the linearized filter degraded as the orbit drifted from its reference.</p><span class="project-hint">MATLAB · EKF · Linearized KF · Monte Carlo · NEES / NIS testing</span><span class="project-note">Full report available on request.</span></article>
         </div>
       </div>
     </section>
